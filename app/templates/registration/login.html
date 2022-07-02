@@ -1,0 +1,37 @@
+
+<!-- templates/registration/login.html -->
+{% extends 'base_generic.html' %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content%}
+<h2>Login</h2>     
+{% comment %} <form method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <button type="submit">Log In</button>
+</form>                        {% endcomment %}
+<form style="margin-bottom:0;" method="post">
+    {% csrf_token %}
+    <div class="form-field">
+        <label for="{{ form.username.id_for_label }}">Email</label>
+        <input type="email" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="254" class="my-email-class" required="" id="id_username">
+    </div>
+        <div class="form-field">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        <input type="password" name="password" autocomplete="current-password" class="my-password-class" required="" id="id_password">
+    </div>
+    <div class="form-field">
+        <input type="submit" class="btn btn-signin" value="Submit" />
+    </div>
+    {% if form.errors %}
+        <div class="form-field">
+            <p>{{ form.non_field_errors.as_text }}</p>
+        </div>
+    {% endif %}
+</form>    
+<div class="links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms & Conditions</a> 
+</div>
+{% endblock content %}

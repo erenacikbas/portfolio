@@ -1,0 +1,49 @@
+<!-- templates/signup.html -->
+{% extends 'base_generic.html' %}
+
+{% block title %}Sign Up{% endblock title %}
+
+{% block content %}
+<h2>Sign Up</h2>
+{% comment %} <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+</form> {% endcomment %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-field">
+        <label for="{{ form.username.id_for_label }}">Email</label>
+        <input type="email" name="email" maxlength="254" autofocus="" required="" id="id_email">
+    </div>
+    <div class="form-field">
+        <label for="{{ form.password.id_for_label }}">Password</label>
+        <input style="" type="password" name="password1" autocomplete="new-password" required="" id="id_password1">  
+    </div>
+    {% comment %} {% if form.errors %}
+    {% else %}
+        <div class="form-field">
+            <ul>
+                <li>Your password can’t be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can’t be a commonly used password.</li>
+                <li>Your password can’t be entirely numeric.</li>
+            </ul>
+        </div> 
+    {% endif %} {% endcomment %}
+    <div class="form-field">
+        <label for="{{ form.password.id_for_label }}">Repeat Password</label>
+        <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2"> 
+    </div>
+    <input style="margin-bottom:0;" type="submit" class="btn btn-signin" value="Submit" />
+    <div class="form-field">
+        <p>{{ form.email.errors }}</p> 
+        <p>{{ form.password1.errors }}</p> 
+        <p>{{ form.password2.errors }}</p> 
+    </div>
+</form>   
+<div class="links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms & Conditions</a> 
+</div>
+{% endblock content %}

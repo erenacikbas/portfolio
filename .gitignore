@@ -1,0 +1,4 @@
+.env.prod
+.env.prod.db
+.vscode
+AWSCLIV2.pkg
