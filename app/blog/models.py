@@ -10,27 +10,35 @@ from sorl.thumbnail import ImageField
 
 User = get_user_model()
 
+
 # Create blog post model
 
 
 class Post(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     authorId = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
-    title = models.CharField(_('Title'),max_length=150)
-    content = models.TextField(_('Content'),)
-    summary = models.TextField(_('Summary'),max_length=250, blank=True)
+    title = models.CharField(_('Title'), max_length=150)
+    content = models.TextField(_('Content'), )
+    summary = models.TextField(_('Summary'), max_length=250, blank=True)
     slug = models.SlugField(_('slug'), max_length=200, unique=True)
-    createdAt = models.DateTimeField(_('Created at'),auto_now_add=True)
-    updatedAt = models.DateTimeField(_('Updated at'),auto_now=True)
+    createdAt = models.DateTimeField(_('Created at'), auto_now_add=True)
+    updatedAt = models.DateTimeField(_('Updated at'), auto_now=True)
     thumbnail = models.ForeignKey('Image', on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Thumbnail')
+    TYPES = (
+        ('S', 'Standard Post'),
+        ('A', 'Audio Post'),
+        ('V', 'Video Post'),
+    )
+    type = models.CharField(max_length=20, choices=TYPES, default='S')
+    category = models.ManyToManyField('Category', blank=True, verbose_name='Categories')
 
     def __str__(self):
         return self.title
-    
+
     @property
     def content_summary(self):
         return truncatechars(self.content, 100)
-    
+
     def get_absolute_url(self):
         """Returns the url to access a detail record for this book."""
         return reverse('blog_post_detail', kwargs={"slug": self.slug})
@@ -38,13 +46,13 @@ class Post(models.Model):
 
 class PostMeta(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    postId = models.ForeignKey('Post', on_delete=models.CASCADE,)
-    metaKey = models.CharField(_('Meta Key'),max_length=100)
-    metaValue = models.TextField(_('Meta Value'),max_length=250, blank=True)
+    postId = models.ForeignKey('Post', on_delete=models.CASCADE, )
+    metaKey = models.CharField(_('Meta Key'), max_length=100)
+    metaValue = models.TextField(_('Meta Value'), max_length=250, blank=True)
 
     def __str__(self):
         return self.metaKey
-    
+
     class Meta:
         verbose_name_plural = _('Metas')
 
@@ -60,21 +68,19 @@ class PostComment(models.Model):
 
     def __str__(self):
         return self.content
-    
+
     class Meta:
         verbose_name_plural = _('Comments')
 
 
 class Category(models.Model):
     # Auto increment id
-    id = models.AutoField(primary_key=True)
-    title = models.CharField(_('Category'),max_length=100)
-    content = models.TextField(_('Content'),max_length=200)
+    title = models.CharField(_('Category'), max_length=100)
     # The meta title is to be used for browser title and SEO.
-    metaTitle = models.CharField(_('Meta Title'),max_length=100, blank=True)
+    metaTitle = models.CharField(_('Meta Title'), max_length=100, blank=True)
     slug = models.SlugField(_('slug'), max_length=200, unique=True)
-    createdAt = models.DateTimeField(_('Created at'),auto_now_add=True)
-    updatedAt = models.DateTimeField(_('Updated at'),auto_now=True)
+    createdAt = models.DateTimeField(_('Created at'), auto_now_add=True)
+    updatedAt = models.DateTimeField(_('Updated at'), auto_now=True)
 
     def __str__(self):
         return self.title
@@ -82,24 +88,13 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = _('Categories')
 
-class PostCategory(models.Model):
-    postId = models.ForeignKey('Post', on_delete=models.CASCADE, )
-    categoryId = models.ForeignKey('Category', on_delete=models.CASCADE, )
-
-    def __str__(self):
-        return self.postId.title + ' - ' + self.categoryId.title
-    
-    class Meta:
-        unique_together = ('postId', 'categoryId')
-        verbose_name_plural = 'Post Categories'
-
 
 class Image(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(_('Image Name'),max_length=100)
+    name = models.CharField(_('Image Name'), max_length=100)
     image = ImageField(_('Image'), upload_to='images/')
-    createdAt = models.DateTimeField(_('Created at'),auto_now_add=True)
-    updatedAt = models.DateTimeField(_('Updated at'),auto_now=True)
+    createdAt = models.DateTimeField(_('Created at'), auto_now_add=True)
+    updatedAt = models.DateTimeField(_('Updated at'), auto_now=True)
 
     def __str__(self):
         return self.name
