@@ -46,6 +46,8 @@ services:
     depends_on:
       - nginx-proxy
     platform: linux/amd64
+  redis:
+    image: redis:alpine3.15
 
 volumes:
   static_volume:
