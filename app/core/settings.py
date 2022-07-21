@@ -44,12 +44,14 @@ INSTALLED_APPS = [
     # Handling Thumbnails
     'sorl.thumbnail',
 
+    # Third Party
+    'debug_toolbar',
+
     # Apps created by me
-    'upload.apps.UploadConfig',
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
-    'blog.apps.BlogConfig',
-    'journal.apps.JournalConfig',
+    #'blog.apps.BlogConfig',
+    #'journal.apps.JournalConfig',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +62,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -133,10 +146,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/var/www/static/',
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
 # Default primary key field type
@@ -154,5 +168,11 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SECURE_REFERRER_POLICY = None
 
 # Login Redirect URL
-LOGIN_REDIRECT_URL = 'resume'
-LOGOUT_REDIRECT_URL = 'resume'
+LOGIN_REDIRECT_URL = 'portfolio'
+LOGOUT_REDIRECT_URL = 'portfolio'
+
+# django-debug-toolbar
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
