@@ -14,17 +14,17 @@ jobs:
     steps:
       - name: Checkout master
         uses: actions/checkout@v1
-      - name: Add environment variables to .env
+      - name: Add environment variables to .env.prod
         run: |
           echo DEBUG=0 >> .env
-          echo SQL_ENGINE=django.db.backends.postgresql >> .env
-          echo DATABASE=postgres >> .env
-          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> .env
-          echo SQL_USER=${{ secrets.SQL_USER }} >> .env
-          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env
-          echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env
-          echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env
+          echo SQL_ENGINE=django.db.backends.postgresql >> .env.prod
+          echo DATABASE=postgres >> .env.prod
+          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env.prod
+          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> .env.prod
+          echo SQL_USER=${{ secrets.SQL_USER }} >> .env.prod
+          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env.prod
+          echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env.prod
+          echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env.prod
       - name: Set environment variables
         run: |
           echo "WEB_IMAGE=$(echo ${{env.WEB_IMAGE}} )" >> $GITHUB_ENV
@@ -53,21 +53,21 @@ jobs:
     steps:
       - name: Checkout master
         uses: actions/checkout@v1
-      - name: Add environment variables to .env
+      - name: Add environment variables to .env.prod
         run: |
-          echo DEBUG=0 >> .env
-          echo SQL_ENGINE=django.db.backends.postgresql >> .env
-          echo DATABASE=postgres >> .env
-          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
-          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> .env
-          echo SQL_USER=${{ secrets.SQL_USER }} >> .env
-          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env
-          echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env
-          echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env
-          echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> .env
-          echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env
-          echo NAMESPACE=${{ secrets.NAMESPACE }} >> .env
-          echo PERSONAL_ACCESS_TOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }} >> .env
+          echo DEBUG=0 >> .env.prod
+          echo SQL_ENGINE=django.db.backends.postgresql >> .env.prod
+          echo DATABASE=postgres >> .env.prod
+          echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env.prod
+          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> .env.prod
+          echo SQL_USER=${{ secrets.SQL_USER }} >> .env.prod
+          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env.prod
+          echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env.prod
+          echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env.prod
+          echo WEB_IMAGE=${{ env.WEB_IMAGE }} >> .env.prod
+          echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env.prod
+          echo NAMESPACE=${{ secrets.NAMESPACE }} >> .env.prod
+          echo PERSONAL_ACCESS_TOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }} >> ..env.prod
       - name: Add the private SSH key to the ssh-agent
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -84,7 +84,7 @@ jobs:
           scp  -o StrictHostKeyChecking=no -r ./.env.prod docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/root/personal-portfolio
           ssh -o StrictHostKeyChecking=no root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
             cd personal-portfolio/
-            source .env
+            source .env.prod
             docker login ghcr.io -u $NAMESPACE -p $PERSONAL_ACCESS_TOKEN
             docker pull $WEB_IMAGE
             docker pull $NGINX_IMAGE
