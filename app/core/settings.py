@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     # Handling Thumbnails
     'sorl.thumbnail',
 
+    # Third Party
+    'debug_toolbar',
+
     # Apps created by me
-    'upload.apps.UploadConfig',
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
     'blog.apps.BlogConfig',
@@ -60,7 +62,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
 
 ROOT_URLCONF = 'core.urls'
 
@@ -155,5 +168,11 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 SECURE_REFERRER_POLICY = None
 
 # Login Redirect URL
-LOGIN_REDIRECT_URL = 'resume'
-LOGOUT_REDIRECT_URL = 'resume'
+LOGIN_REDIRECT_URL = 'portfolio'
+LOGOUT_REDIRECT_URL = 'portfolio'
+
+# django-debug-toolbar
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+

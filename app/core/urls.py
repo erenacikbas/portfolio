@@ -17,15 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from pages.views import index_page, blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page, template_1, template_2, template_3
+from pages.views import index_page, blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page
+from django.views.decorators.cache import cache_page
 
 # Login Views
-from django.contrib.auth.views import LoginView
 
-from users.forms import CustomLoginForm
 from blog.views import BlogPostDetailView, BlogPostListView
 
 urlpatterns = [
+    path('__debug__/', include('debug_toolbar.urls')),
     # Django Admin
     path('admin/', admin.site.urls),
 
@@ -33,7 +33,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 
     # Home Page
-    path('', index_page, name='resume'),
+    path('', cache_page(60*15)(index_page), name='portfolio'),
     
     # Blog Page
     path('blog/', BlogPostListView.as_view(), name='blog'),
@@ -42,13 +42,6 @@ urlpatterns = [
     path('blog/about/', blog_about_page, name='blog_about'),
     path('blog/contact/', blog_contact_page, name='blog_contact'),
 
-    # Flare
-    path('templates/1', template_1, name='template_1'),
-    # Tyndale
-    path('templates/2', template_2, name='template_2'),
-    # Infinity
-    path('templates/3', template_3, name='template_3'),
-    
     # Journal Page
     path('journal/', journal_page, name='journal'),
 

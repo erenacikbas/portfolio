@@ -15,7 +15,7 @@
     {% csrf_token %}
     <div class="form-field">
         <label for="{{ form.username.id_for_label }}">Email</label>
-        <input type="email" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="254" class="my-email-class" required="" id="id_username">
+        <input type="email" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="254" class="my-username-class" required="" id="id_username">
     </div>
         <div class="form-field">
         <label for="{{ form.password.id_for_label }}">Password</label>
@@ -29,9 +29,9 @@
             <p>{{ form.non_field_errors.as_text }}</p>
         </div>
     {% endif %}
-</form>    
+</form>
 <div class="links">
     <a href="#">Privacy Policy</a>
-    <a href="#">Terms & Conditions</a> 
+    <a href="#">Terms & Conditions</a>
 </div>
 {% endblock content %}

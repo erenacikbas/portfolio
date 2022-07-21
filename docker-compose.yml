@@ -18,6 +18,8 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=core_dev
+  redis:
+    image: redis:alpine3.15
 
 volumes:
   postgres_data:
