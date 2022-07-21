@@ -5,7 +5,7 @@ services:
     build:
       context: ./app
       dockerfile: Dockerfile.prod
-    image: 542809068725.dkr.ecr.eu-central-1.amazonaws.com/portfolio-website-ec2:web
+    image: "${WEB_IMAGE}"
     command: gunicorn core.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/staticfiles
@@ -18,7 +18,7 @@ services:
   nginx-proxy:
     container_name: nginx-proxy
     build: nginx
-    image: 542809068725.dkr.ecr.eu-central-1.amazonaws.com/portfolio-website-ec2:nginx-proxy
+    image: "${NGINX_IMAGE}"
     restart: always
     ports:
       - 443:443
