@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     # Apps created by me
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
-    'blog.apps.BlogConfig',
-    'journal.apps.JournalConfig',
+    #'blog.apps.BlogConfig',
+    #'journal.apps.JournalConfig',
 ]
 
 MIDDLEWARE = [

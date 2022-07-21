@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from pages.views import index_page, blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page
+from pages.views import index_page #blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page
 from django.views.decorators.cache import cache_page
 
 # Login Views
 
-from blog.views import BlogPostDetailView, BlogPostListView
+#from blog.views import BlogPostDetailView, BlogPostListView
 
 urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
@@ -30,20 +30,20 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # User Management
-    path('accounts/', include('django.contrib.auth.urls')),
+    #path('accounts/', include('django.contrib.auth.urls')),
 
     # Home Page
     path('', cache_page(60*15)(index_page), name='portfolio'),
     
     # Blog Page
-    path('blog/', BlogPostListView.as_view(), name='blog'),
-    path('blog/post/<slug:slug>', BlogPostDetailView.as_view(), name='blog_post_detail'),
-    path('blog/category/', blog_category_page, name='blog_category'),
-    path('blog/about/', blog_about_page, name='blog_about'),
-    path('blog/contact/', blog_contact_page, name='blog_contact'),
+    # path('blog/', BlogPostListView.as_view(), name='blog'),
+    # path('blog/post/<slug:slug>', BlogPostDetailView.as_view(), name='blog_post_detail'),
+    # path('blog/category/', blog_category_page, name='blog_category'),
+    # path('blog/about/', blog_about_page, name='blog_about'),
+    # path('blog/contact/', blog_contact_page, name='blog_contact'),
 
     # Journal Page
-    path('journal/', journal_page, name='journal'),
+    # path('journal/', journal_page, name='journal'),
 
     # Signup Page for CustomUser Model
     path('accounts/', include('users.urls')),
