@@ -1,7 +1,6 @@
 {% extends 'blog/base_blog.html' %}
 
 {% block title %}About{% endblock title %}
-
     
 {% block content %}
 {% load static %}
@@ -47,10 +46,10 @@
 
             <div class="entry__media">
                 <figure class="featured-image">
-                    <img src="images/thumbs/single/standard-1200.jpg" 
-                      srcset="images/thumbs/single/standard-2400.jpg 2400w, 
-                              images/thumbs/single/standard-1200.jpg 1200w, 
-                              images/thumbs/single/standard-600.jpg 600w" sizes="(max-width: 2400px) 100vw, 2400px" alt="">
+                    <img src="{{ blog_post.thumbnail.image.url }}"
+                      srcset="{{ blog_post.thumbnail.image.url }} 2400w,
+                              {{ blog_post.thumbnail.image.url }} 1200w,
+                              {{ blog_post.thumbnail.image.url }} 600w" sizes="(max-width: 2400px) 100vw, 2400px" alt="">
                 </figure>
             </div>
 
