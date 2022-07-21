@@ -6,3 +6,5 @@
 .env.staging
 .env.staging.db
 .env.staging
+/app/journal/
+/app/blog/
