@@ -45,6 +45,8 @@ jobs:
           docker push ${{ env.WEB_IMAGE }}
           docker push ${{ env.NGINX_IMAGE }}
 
+  if: ${{ github.event.assignee.login == 'ecp-maya-devops-adsk' }}
+
   deploy:
     name: Deploy to DigitalOcean
     runs-on: ubuntu-latest
