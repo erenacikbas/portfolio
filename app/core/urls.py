@@ -17,8 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from pages.views import index_page #blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page
-from django.views.decorators.cache import cache_page
+ #blog_page, journal_page, blog_about_page, blog_contact_page, blog_category_page
 
 # Login Views
 
@@ -28,12 +27,13 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     # Django Admin
     path('admin/', admin.site.urls),
+    path('', include('pages.urls')),
 
     # User Management
     #path('accounts/', include('django.contrib.auth.urls')),
 
     # Home Page
-    path('', cache_page(60*15)(index_page), name='portfolio'),
+    #path('', index_page, name='portfolio'),
     
     # Blog Page
     # path('blog/', BlogPostListView.as_view(), name='blog'),
