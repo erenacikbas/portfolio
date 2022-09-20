@@ -25,6 +25,8 @@ jobs:
           echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> .env.prod
           echo SQL_HOST=${{ secrets.SQL_HOST }} >> .env.prod
           echo SQL_PORT=${{ secrets.SQL_PORT }} >> .env.prod
+          echo DEFAULT_EMAIL=${{ secrets.DEFAULT_EMAIL }} >> env.prod.proxy-companion
+          echo NGINX_PROXY_CONTAINER=${{ secrets.DEFAULT_EMAIL }} >> env.prod.proxy-companion
       - name: Set environment variables
         run: |
           echo "WEB_IMAGE=$(echo ${{env.WEB_IMAGE}} )" >> $GITHUB_ENV
